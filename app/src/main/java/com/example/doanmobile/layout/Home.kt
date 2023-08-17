@@ -38,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -47,33 +48,34 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.doanmobile.R
 import com.example.doanmobile.data.CategoryItems
+import com.example.doanmobile.data.FilmNewItems
+import com.example.doanmobile.headtitle
 import com.example.doanmobile.ui.theme.DoAnMobileTheme
 
 
 @Composable
 fun Home() {
-    Box(
-        Modifier.fillMaxSize(1f)
-    ) {
-        Column {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
             header()
             Spacer(modifier = Modifier.height(5.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .size(400.dp, 400.dp)
+                    .size(500.dp, 500.dp)
                     .verticalScroll(rememberScrollState()),
                 horizontalArrangement = Arrangement.Center
             ) {
                 banner()
             }
-            Spacer(modifier = Modifier.height(5.dp))
-            Spacer(modifier = Modifier.height(5.dp))
-            Spacer(modifier = Modifier.height(5.dp))
-            content()
+            Spacer(modifier = Modifier.height(15.dp))
+            category()
+            Spacer(modifier = Modifier.height(15.dp))
+            newfilm()
         }
-
-    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -127,7 +129,7 @@ fun banner() {
         Image(
             painter = painterResource(id = R.drawable.anime1),
             contentDescription = null,
-            modifier = Modifier.height(400.dp),
+            modifier = Modifier.height(500.dp),
             contentScale = ContentScale.Crop
         )
         Text(text = "Oshi Noko Naha",
@@ -137,10 +139,10 @@ fun banner() {
             fontSize = 25.sp,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 280.dp, start = 20.dp))
+                .padding(top = 380.dp, start = 20.dp))
 
         Row(
-            modifier = Modifier.padding(top = 315.dp, start = 20.dp)
+            modifier = Modifier.padding(top = 415.dp, start = 20.dp)
         ) {
             Text(text = "Mới", color = Color.Red)
             Text(text = " . ")
@@ -155,7 +157,7 @@ fun banner() {
             ),
             modifier = Modifier
                 .width(380.dp)
-                .padding(top = 345.dp, start = 20.dp)
+                .padding(top = 443.dp, start = 20.dp)
         ) {
             Icon(Icons.Default.PlayArrow, contentDescription = null,
                 Modifier.size(25.dp), Color.White)
@@ -168,7 +170,7 @@ fun banner() {
 }
 
 @Composable
-fun content() {
+fun category() {
 
     Column() {
         Row() {
@@ -196,6 +198,24 @@ fun content() {
                 }
             )
         }
+    }
+}
+
+@Composable
+fun newfilm() {
+    Column() {
+        headtitle("Mới ra mắt")
+    }
+    var news = remember { FilmNewItems.filmNewList}
+    LazyRow(
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+    ) {
+        items(
+            items = news,
+            itemContent = {
+                FilmNewListItem(filmNew = it)
+            }
+        )
     }
 }
 
