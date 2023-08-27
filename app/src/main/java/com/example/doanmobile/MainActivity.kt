@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.example.doanmobile.bottomnav.BottomNav
 import com.example.doanmobile.layout.Home
 import com.example.doanmobile.ui.theme.DoAnMobileTheme
 
@@ -26,7 +27,7 @@ class MainActivity : ComponentActivity() {
                 systemBarsBehavior =
                     WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
             }
-            Home()
+            BottomNav()
         }
     }
 }

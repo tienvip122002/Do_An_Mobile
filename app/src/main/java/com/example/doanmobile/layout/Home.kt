@@ -20,8 +20,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -47,6 +49,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.doanmobile.R
+import com.example.doanmobile.bottomnav.BottomNav
 import com.example.doanmobile.data.CategoryItems
 import com.example.doanmobile.data.FilmNewItems
 import com.example.doanmobile.headtitle
@@ -55,6 +58,7 @@ import com.example.doanmobile.ui.theme.DoAnMobileTheme
 
 @Composable
 fun Home() {
+    Box() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -75,14 +79,22 @@ fun Home() {
             category()
             Spacer(modifier = Modifier.height(15.dp))
             newfilm()
+            Spacer(modifier = Modifier.height(15.dp))
+            animeFilm()
         }
+//        Row(
+//            verticalAlignment = Alignment.Bottom
+//        ) {
+//            BottomNav()
+//        }
+    }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun header(){
-    Row(
-    ) {
+    Row() {
         Icon(Icons.Default.PlayArrow, contentDescription = null, Modifier.size(40.dp), Color.Red)
         Box() {
             Text(text = "FPT Play",
@@ -94,34 +106,49 @@ fun header(){
                     .padding(top = 8.dp)
             )
         }
-        var ha by remember {
-            mutableStateOf("")
+        Box(modifier = Modifier
+            .align(Alignment.CenterVertically)
+            .padding(start = 200.dp)) {
+            Row() {
+                Icon(
+                    Icons.Default.Search, contentDescription = "Search...",
+                    Modifier
+                        .size(25.dp)
+                        .width(100.dp),
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+                Icon(
+                    Icons.Default.Lock, contentDescription = "Search...",
+                    Modifier
+                        .size(25.dp)
+                        .width(100.dp),
+                )
+            }
         }
-        TextField(
-            value = ha,
-            onValueChange = { newValue ->
-                ha = newValue
-            },
-            textStyle = TextStyle(
-                color = Color.Black,
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp
-            ),
-            modifier = Modifier
-                .height(40.dp)
-                .padding(10.dp),
-            placeholder = { Text(text = "Search...") },
-            trailingIcon = { Icon(Icons.Default.Search, contentDescription = "Search...") },
-            colors = TextFieldDefaults . textFieldColors (
-                cursorColor = Color.Black,
-                unfocusedIndicatorColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-            )
-        )
 
     }
+//        var ha by remember {
+//            mutableStateOf("")
+//        }
+//        TextField(
+//            value = ha,
+//            onValueChange = { newValue ->
+//                ha = newValue
+//            },
+//            modifier = Modifier
+//                .height(40.dp)
+//                .padding(10.dp),
+//            trailingIcon = { Icon(Icons.Default.Search, contentDescription = "Search...") },
+//            colors = TextFieldDefaults . textFieldColors (
+//                cursorColor = Color.Black,
+//                unfocusedIndicatorColor = Color.Transparent,
+//                focusedIndicatorColor = Color.Transparent,
+//                disabledIndicatorColor = Color.Transparent,
+//            )
+//        )
+//
 }
+
 
 @Composable
 fun banner() {
@@ -218,6 +245,26 @@ fun newfilm() {
         )
     }
 }
+
+@Composable
+fun animeFilm() {
+    Column() {
+        headtitle("Anime")
+    }
+    var animes = remember { FilmNewItems.filmNewList}
+    LazyRow(
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+    ) {
+        items(
+            items = animes,
+            itemContent = {
+                AnimeListItem(filmNew = it)
+            }
+        )
+    }
+}
+
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true)
